@@ -1,0 +1,32 @@
+version: '3.3'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - local-db:/var/lib/postgresql/data
+  api:
+    build: ./app-api
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - ./app-api:/api
+    ports:
+      - "8000:3000"
+    env_file: 
+      - ".env"
+    depends_on:
+      - db
+
+  web:
+    build: ./app-frontend
+    ports:
+        - '5174:5173'
+    env_file: 
+      - ".env"
+    depends_on:
+      - api
+
+volumes:
+  local-db:
