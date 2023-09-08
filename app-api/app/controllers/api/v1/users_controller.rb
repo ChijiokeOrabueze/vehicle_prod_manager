@@ -43,7 +43,6 @@ module Api
       def login
         @user = User.where("username = ? and password = ?", user_params[:username], user_params[:password])
 
-        puts "hello"
         begin
 
           if @user[0]
