@@ -1,6 +1,8 @@
 import styled from "styled-components"
 import Input from "../components/Input"
 import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+import { notify } from "../utils"
 
 
 const Container = styled.div`
@@ -47,6 +49,35 @@ const Button = styled.div`
 
 const Login = () => {
     const navigate = useNavigate()
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSubmit = async () => {
+        if (!username || !password){
+            notify("username and password is required.")
+            return;
+        }
+
+        const response = await fetch(`${import.meta.env.VITE_MAIN_API_URL}/auth/login`, {
+            method: "post",
+            body: JSON.stringify( {
+                username,
+                password
+            })
+        });
+
+        const user = await response.json();
+
+        if (response.ok){
+            navigate("/home")
+        }
+
+        console.log({user})
+
+        
+
+
+    }
   return (
     <Container>
         <Title>Enter Your Credentials to Login to Your Xpak Account</Title>
@@ -55,14 +86,18 @@ const Login = () => {
                 name="username"
                 title="username"
                 type="text"
+                value={username}
+                onChange={(e)=>{setUsername(e.target.value)}}
             />
             <Input 
                 name="password"
                 title="password"
                 type="password"
+                value={password}
+                onChange={(e)=>{setPassword(e.target.value)}}
             />
         </LoginForm>
-        <Button onClick={()=>{navigate("/home")}}>Login</Button>
+        <Button onClick={handleSubmit}>Login</Button>
 
     </Container>
   )

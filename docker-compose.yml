@@ -21,10 +21,12 @@ services:
 
   web:
     build: ./app-frontend
+    volumes:
+      - ./app-frontend:/app
     ports:
         - '5174:5173'
     env_file: 
-      - ".env"
+      - "./app-frontend/.env"
     depends_on:
       - api
 
