@@ -65,7 +65,7 @@ module Api
                   "success" => false,
                   "message" => "Requested state not found.", 
                   "errors" => "Requested state not found."
-              })
+            })
           end
           
         end
