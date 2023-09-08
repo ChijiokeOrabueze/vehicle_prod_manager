@@ -17,7 +17,6 @@ module Api
       # GET /states/1
       def show
         handle_response({"data" => @states, "success" => true}, "fetched state.")
-        
       end
 
       # POST /states
