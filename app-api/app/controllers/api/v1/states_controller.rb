@@ -1,14 +1,18 @@
 module Api
   module V1
 
+    
+
     class StatesController < ApplicationController
       before_action :set_state, only: %i[ show update destroy ]
-
+      
+      @@handler = ResponseHandler.new
       # GET /states
       def index
         @states = State.all
 
-        render json: @states
+        @@handler.handle_response({data: @states, success: true}, "fetched all states.")
+        # render json: @states
       end
 
       # GET /states/1
