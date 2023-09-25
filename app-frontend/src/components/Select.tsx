@@ -16,7 +16,7 @@ const Container = styled.div`
         border-radius: 4px;
         font-style: normal;
         font-weight: 500;
-        font-size: 13px;
+        font-size: 16px;
         line-height: 19px;
         color: #8091a7;
         padding: 0 16px;
@@ -29,7 +29,7 @@ const Container = styled.div`
     label {
         font-style: normal;
         font-weight: 700;
-        font-size: 14px;
+        font-size: 20px;
         line-height: 165%;
         color: #364a63;
         margin-top: 16px;

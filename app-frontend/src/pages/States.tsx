@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import Input from "../components/Input"
 import Tile from "../components/Tile"
+import { useNavigate } from "react-router-dom"
 
 
 const Container = styled.div`
@@ -67,6 +68,7 @@ const Buttons = styled.div`
 
 
 const States = () => {
+    const navigate = useNavigate();
   return (
     <Container>
         <Title>Welcome to Your Xpak Account</Title>
@@ -75,7 +77,7 @@ const States = () => {
                 <h3 style={{flex: "2"}}>All States</h3>
 
                 <Buttons>
-                    <Button>Add State</Button>
+                    <Button onClick={()=>{navigate("/new-state");}}>Add State</Button>
                 </Buttons>
                 
             </Header>

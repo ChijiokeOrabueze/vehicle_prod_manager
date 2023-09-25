@@ -25,3 +25,18 @@ font-weight: 700;
 border: 0;
 
 `
+
+export const Title = styled.h1`
+
+`
+
+export const FormBody = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 60%;
+    border: 3px solid #f4f4f4;
+    padding: 16px 16px 24px;
+
+`

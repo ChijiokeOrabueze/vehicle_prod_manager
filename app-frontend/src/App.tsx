@@ -7,6 +7,8 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import States from './pages/States';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import AddVehicleForm from './pages/AddVehicleForm';
+import AddStateForm from './pages/AddStateForm';
 
 
 const Container = styled.div`
@@ -30,6 +32,8 @@ function App() {
                     <Route path='/' element={<Login setUser={(user)=>{setUser(user)}} />} />
                     <Route path='/home' element={<Home user={user}/>} />
                     <Route path='/states' element={<States />} />
+                    <Route path='/new-vehicle' element={<AddVehicleForm />} />
+                    <Route path='/new-state' element={<AddStateForm />} />
                     <Route path='*' element={<div>Not found</div>} />
                 </Routes>
             </>

@@ -71,7 +71,7 @@ const Home = ({user}: HomeProps) => {
                 <h3 style={{flex: "2"}}>Vehicles Available</h3>
 
                 <Buttons>
-                    <Button>Add Vehicle</Button>
+                    <Button onClick={()=>{navigate("/new-vehicle")}}>Add Vehicle</Button>
                     <Button onClick={()=>{navigate("/states")}}>View States</Button>
                 </Buttons>
                 

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { notify } from "../utils"
 import { User } from "../types"
+import { FormBody, Title } from "../styles"
 
 
 const Container = styled.div`
@@ -18,18 +19,7 @@ const Container = styled.div`
 
 `
 
-const LoginForm = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    width: 60%;
 
-`
-
-const Title = styled.h1`
-
-`
 
 const Button = styled.div`
 
@@ -92,7 +82,7 @@ const Login = ({setUser}: LoginProps) => {
   return (
     <Container>
         <Title>Enter Your Credentials to Login to Your Xpak Account</Title>
-        <LoginForm>
+        <FormBody>
             <Input 
                 name="username"
                 title="username"
@@ -107,7 +97,7 @@ const Login = ({setUser}: LoginProps) => {
                 value={password}
                 onChange={(e)=>{setPassword(e.target.value)}}
             />
-        </LoginForm>
+        </FormBody>
         <Button onClick={handleSubmit}>Login</Button>
 
     </Container>
