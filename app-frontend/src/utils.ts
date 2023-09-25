@@ -11,7 +11,7 @@ export const makeApiCall = async(method: "post" | "get" | "put", url: string, pa
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: method == "get" ? undefined :JSON.stringify(payload)
     });
 
     const resp = await response.json();

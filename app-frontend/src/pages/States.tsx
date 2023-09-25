@@ -1,7 +1,7 @@
 import styled from "styled-components"
-import Input from "../components/Input"
 import Tile from "../components/Tile"
 import { useNavigate } from "react-router-dom"
+import useFetchItems from "../hooks/useFetchItems"
 
 
 const Container = styled.div`
@@ -69,6 +69,8 @@ const Buttons = styled.div`
 
 const States = () => {
     const navigate = useNavigate();
+    const states = useFetchItems<{name: string, alias: string, order: number, id: number}[]>("states");
+
   return (
     <Container>
         <Title>Welcome to Your Xpak Account</Title>
@@ -83,12 +85,18 @@ const States = () => {
             </Header>
             <div style={{width: "100%"}}>
                 {
-                    ["Designed","Tested","Painted"].map((num, index)=>(
+                    states && !states.length ?
+                    <p>No States added</p> :
+                    states && states.length ?
+                    states.map((state, index)=>(
                         <Tile
+                            key={state.id}
                             index={index + 1}
-                            title={num}
+                            title={`${state.name}${state.alias ? ` (${state.alias})`: ""}`}
+                            state={state.order.toString()}
                         />
-                    ))
+                    )): null
+
                 }
             </div>
         </Box>

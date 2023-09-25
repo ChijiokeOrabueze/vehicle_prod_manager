@@ -4,6 +4,7 @@ import { Button } from "../styles"
 import Tile from "../components/Tile"
 import { useNavigate } from "react-router-dom"
 import UserTile, { UserTileProps } from "../components/UserTile"
+import useFetchItems from "../hooks/useFetchItems"
 
 
 const Container = styled.div`
@@ -60,8 +61,8 @@ interface HomeProps extends UserTileProps {
 
 const Home = ({user}: HomeProps) => {
     const navigate = useNavigate();
+    const vehicles = useFetchItems<{name: string, state_id: number, order: number, id: number}[]>("vehicles");
 
-    console.log(user)
   return (
     <Container>
         <Title>Welcome to Your Xpak Account</Title>
@@ -78,13 +79,20 @@ const Home = ({user}: HomeProps) => {
             </Header>
             <div style={{width: "100%"}}>
                 {
-                    [2,3,4].map((num, index)=>(
-                        <Tile 
-                            key={num}
+                    
+                    vehicles && !vehicles.length ?
+                    <p>No vehicles added</p> :
+                    vehicles && vehicles.length ?
+                    vehicles.map((vehicle, index)=>(
+                        <Tile
+                            key={vehicle.id}
                             index={index + 1}
-                            title={"way finder"}
+                            title={`${vehicle.name}`}
+                            state={vehicle.state_id.toString()}
                         />
-                    ))
+                    )): null
+    
+                    
                 }
             </div>
         </Box>
