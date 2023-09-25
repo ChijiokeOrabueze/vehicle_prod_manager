@@ -36,12 +36,19 @@ const AddVehicleForm = () => {
         notify(msg);
     }
 
+    let currState: {name: string, alias: string, order: number, id: number} | undefined = undefined;
     const stateMap: {[x in string]: number} = {};
-    const stateOptions = states?.map(({name, order, alias, id})=>{
+    const stateOptions: string[] = [];
+
+    states?.forEach(({name, order, alias, id})=>{
         const state = `${name}${alias ? ` (${alias})`: ""}-${order}`;
         stateMap[state] = id;
 
-        return state;
+        if (location?.state?.state?.id === id) {
+            currState = {name, order, alias, id}
+        }
+
+        stateOptions.push(state);
     })
 
     const handleSubmit = async() => {
@@ -65,7 +72,7 @@ const AddVehicleForm = () => {
     useEffect(()=>{
 
         if (location.state){
-            const currState = states?.find((state)=>(state.id == location.state.state.id))
+            
             setName(location.state.name);
             setState(currState ?
                 `${currState?.name}${currState?.alias ? ` (${currState?.alias})`: ""}-${currState?.order}`:

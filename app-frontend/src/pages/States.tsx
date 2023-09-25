@@ -69,7 +69,8 @@ const Buttons = styled.div`
 
 const States = () => {
     const navigate = useNavigate();
-    const states = useFetchItems<{name: string, alias: string, order: number, id: number}[]>("states");
+    const states = useFetchItems<{name: string, alias: string, order: number, id: number, min_permission: string}[]>("states");
+
 
   return (
     <Container>

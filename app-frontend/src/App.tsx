@@ -33,9 +33,9 @@ function App() {
                     <Route path='/home' element={<Home user={user}/>} />
                     <Route path='/states' element={<States />} />
                     <Route path='/new-vehicle' element={<AddVehicleForm />} />
-                    <Route path='/new-state' element={<AddStateForm />} />
+                    <Route path='/new-state' element={<AddStateForm authUserType={user.userType}/>} />
                     <Route path='/update-vehicle' element={<AddVehicleForm />} />
-                    <Route path='/update-state' element={<AddStateForm />} />
+                    <Route path='/update-state' element={<AddStateForm authUserType={user.userType}/>} />
                     <Route path='*' element={<div>Not found</div>} />
                 </Routes>
             </>

@@ -72,7 +72,7 @@ module Api
 
         # Only allow a list of trusted parameters through.
         def state_params
-          params.require(:state).permit(:name, :alias, :order)
+          params.require(:state).permit(:name, :alias, :order, :min_permission)
         end
     end
 

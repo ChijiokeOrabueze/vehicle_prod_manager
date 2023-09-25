@@ -5,6 +5,7 @@ import Select from "../components/Select"
 import { useEffect, useState } from "react"
 import { makeApiCall, notify } from "../utils"
 import { useLocation, useNavigate } from "react-router-dom"
+import { UserType, permissionMap } from "../types"
 
 
 const Container = styled.div`
@@ -20,13 +21,24 @@ const Container = styled.div`
 
 `
 
-const AddStateForm = () => {
+interface AddStateFormProps {
+    authUserType: UserType;
+}
+
+const AddStateForm = ({authUserType}:AddStateFormProps) => {
 
     const [name, setName] = useState("");
     const [order, setOrder] = useState("");
     const [alias, setAlias] = useState("");
+    const [minPermission, setMinPermission] = useState<UserType>();
     const navigate = useNavigate();
     const location = useLocation();
+
+    const permissionOptions = ["REGULAR"];
+
+    if (authUserType === "ADMIN") {
+        permissionOptions.push("ADMIN")
+    }
 
     const onSuccess = () => {
         navigate("/states")
@@ -48,7 +60,7 @@ const AddStateForm = () => {
         await makeApiCall(
             updateId ? "put" : "post",
             `${import.meta.env.VITE_MAIN_API_URL}/states${updateId ? `/${updateId}` : ""}`,
-            {name, alias, order},
+            {name, alias, order, min_permission: permissionMap[minPermission || "REGULAR"]},
             onSuccess,
             onFailure
         )
@@ -66,6 +78,7 @@ const AddStateForm = () => {
         }
 
     }, [location.state])
+
   return (
     <Container>
         <Title>{location.state ? `Update State - ${location.state.name}` : "Add new State"}</Title>
@@ -95,6 +108,14 @@ const AddStateForm = () => {
                 placeholder="Enter state order"
                 value={order}
                 onChange={(e)=>{setOrder(e.target.value)}}
+            />
+            <Select 
+                name="minPermission"
+                title="Min Permission"
+                placeholder="Enter the minimum permitted role"
+                options={permissionOptions}
+                value={minPermission}
+                onChange={(e)=>{setMinPermission(e.target.value as UserType)}}
             />
         </FormBody>
         <Button onClick={handleSubmit}>{location.state ? "Update" : "Submit"}</Button>
