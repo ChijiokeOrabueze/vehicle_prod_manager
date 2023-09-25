@@ -3,6 +3,8 @@ import { Button, FormBody, Title } from "../styles"
 import Input from "../components/Input"
 import Select from "../components/Select"
 import { useState } from "react"
+import { makeApiCall, notify } from "../utils"
+import { useNavigate } from "react-router-dom"
 
 
 const Container = styled.div`
@@ -22,8 +24,31 @@ const AddStateForm = () => {
 
     const [name, setName] = useState("");
     const [order, setOrder] = useState("");
+    const [alias, setAlias] = useState("");
+    const navigate = useNavigate();
 
-    const handleSubmit = () => {
+    const onSuccess = () => {
+        navigate("/states")
+    }
+
+    const onFailure = (msg: string) => {
+        notify(msg);
+    }
+
+    const handleSubmit = async () => {
+
+        if (!name || !order){
+            notify("name and order is required.")
+            return;
+        }
+
+        await makeApiCall(
+            "post",
+            `${import.meta.env.VITE_MAIN_API_URL}/states`,
+            {name, alias, order},
+            onSuccess,
+            onFailure
+        )
 
     }
   return (
@@ -35,12 +60,22 @@ const AddStateForm = () => {
                 title="Name"
                 type="text"
                 placeholder="Enter name of state"
+                required
                 value={name}
                 onChange={(e)=>{setName(e.target.value)}}
             />
             <Input 
+                name="alias"
+                title="Alias"
+                type="text"
+                placeholder="Enter state alias"
+                value={alias}
+                onChange={(e)=>{setAlias(e.target.value)}}
+            />
+            <Input 
                 name="state"
                 title="Order"
+                required
                 type="number"
                 placeholder="Enter state order"
                 value={order}
