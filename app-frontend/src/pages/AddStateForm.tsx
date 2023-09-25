@@ -2,9 +2,9 @@ import styled from "styled-components"
 import { Button, FormBody, Title } from "../styles"
 import Input from "../components/Input"
 import Select from "../components/Select"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { makeApiCall, notify } from "../utils"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 
 const Container = styled.div`
@@ -26,6 +26,7 @@ const AddStateForm = () => {
     const [order, setOrder] = useState("");
     const [alias, setAlias] = useState("");
     const navigate = useNavigate();
+    const location = useLocation();
 
     const onSuccess = () => {
         navigate("/states")
@@ -42,18 +43,32 @@ const AddStateForm = () => {
             return;
         }
 
+        const updateId = location?.state?.id;
+
         await makeApiCall(
-            "post",
-            `${import.meta.env.VITE_MAIN_API_URL}/states`,
+            updateId ? "put" : "post",
+            `${import.meta.env.VITE_MAIN_API_URL}/states${updateId ? `/${updateId}` : ""}`,
             {name, alias, order},
             onSuccess,
             onFailure
         )
 
     }
+
+    useEffect(()=>{
+
+        if (location.state){
+            
+            setName(location.state.name);
+            setAlias(location.state.alias);
+            setOrder(location.state.order);
+            
+        }
+
+    }, [location.state])
   return (
     <Container>
-        <Title>Add new State</Title>
+        <Title>{location.state ? `Update State - ${location.state.name}` : "Add new State"}</Title>
         <FormBody>
             <Input 
                 name="name"
@@ -82,7 +97,7 @@ const AddStateForm = () => {
                 onChange={(e)=>{setOrder(e.target.value)}}
             />
         </FormBody>
-        <Button onClick={handleSubmit}>Submit</Button>
+        <Button onClick={handleSubmit}>{location.state ? "Update" : "Submit"}</Button>
 
     </Container>
   )
