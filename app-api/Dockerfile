@@ -1,6 +1,14 @@
 FROM ruby:3.1.4
 
 RUN mkdir /api
+
+RUN groupadd -g 999 appuser && \
+    useradd -r -u 999 -g appuser appuser
+
+RUN chown appuser /api
+
+USER appuser
+
 WORKDIR /api
 
 RUN apt-get update -qq \

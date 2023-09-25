@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import States from './pages/States';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 
 const Container = styled.div`
@@ -21,12 +22,13 @@ const Container = styled.div`
 `;
 
 function App() {
+    const [user, setUser] = useLocalStorage("user", {username: "", userType: "" as "REGULAR" | "ADMIN"});
     return (
         <Container>
             <>
                 <Routes>
-                    <Route path='/' element={<Login />} />
-                    <Route path='/home' element={<Home />} />
+                    <Route path='/' element={<Login setUser={(user)=>{setUser(user)}} />} />
+                    <Route path='/home' element={<Home user={user}/>} />
                     <Route path='/states' element={<States />} />
                     <Route path='*' element={<div>Not found</div>} />
                 </Routes>

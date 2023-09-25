@@ -3,6 +3,7 @@ import Input from "../components/Input"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { notify } from "../utils"
+import { User } from "../types"
 
 
 const Container = styled.div`
@@ -46,8 +47,12 @@ const Button = styled.div`
 
 `
 
+interface LoginProps {
+    setUser: (user: User) => void;
+}
 
-const Login = () => {
+
+const Login = ({setUser}: LoginProps) => {
     const navigate = useNavigate()
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -72,6 +77,11 @@ const Login = () => {
         const user = await response.json();
 
         if (response.ok){
+            console.log(user)
+            setUser({
+                username: user.data.username,
+                userType: user.data.user_type?.toLowerCase() == "admin" ? "ADMIN" : "REGULAR"
+            });
             navigate("/home");
             return;
         }

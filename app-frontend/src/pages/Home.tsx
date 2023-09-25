@@ -3,6 +3,7 @@ import Input from "../components/Input"
 import { Button } from "../styles"
 import Tile from "../components/Tile"
 import { useNavigate } from "react-router-dom"
+import UserTile, { UserTileProps } from "../components/UserTile"
 
 
 const Container = styled.div`
@@ -52,12 +53,19 @@ const Buttons = styled.div`
 
 `
 
+interface HomeProps extends UserTileProps {
 
-const Home = () => {
+}
+
+
+const Home = ({user}: HomeProps) => {
     const navigate = useNavigate();
+
+    console.log(user)
   return (
     <Container>
         <Title>Welcome to Your Xpak Account</Title>
+        <UserTile user={user} />
         <Box>
             <Header>
                 <h3 style={{flex: "2"}}>Vehicles Available</h3>
