@@ -31,7 +31,7 @@ function App() {
                 <Routes>
                     <Route path='/' element={<Login setUser={(user)=>{setUser(user)}} />} />
                     <Route path='/home' element={<Home user={user}/>} />
-                    <Route path='/states' element={<States />} />
+                    <Route path='/states' element={<States user={user} />} />
                     <Route path='/new-vehicle' element={<AddVehicleForm authUserType={user.userType}/>} />
                     <Route path='/new-state' element={<AddStateForm authUserType={user.userType}/>} />
                     <Route path='/update-vehicle' element={<AddVehicleForm authUserType={user.userType}/>} />

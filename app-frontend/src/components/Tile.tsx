@@ -18,14 +18,16 @@ interface TileProps {
     title: string;
     onUpdateClick: () => void;
     state?: string;
+    altBtn?: string;
+    disableBtn?: boolean;
 }
 
-const Tile = ({index, title, state, onUpdateClick}: TileProps) => {
+const Tile = ({index, title, state, onUpdateClick, disableBtn, altBtn}: TileProps) => {
   return (
     <Container>
         <p style={{width: "150px"}}>{index}. {title}</p>
         <p>{state || ""}</p>
-        <Button onClick={onUpdateClick}>Update</Button>
+        <Button style={{backgroundColor: disableBtn ? "gray" : "#6576ff"}} onClick={!disableBtn ? onUpdateClick : () => {}}>{altBtn || "Update"}</Button>
     </Container>
   )
 }

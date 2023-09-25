@@ -2,7 +2,8 @@ import styled from "styled-components"
 import Tile from "../components/Tile"
 import { useNavigate } from "react-router-dom"
 import useFetchItems from "../hooks/useFetchItems"
-import { StateType } from "../types"
+import { StateType, permissionMap } from "../types"
+import UserTile, { UserTileProps } from "../components/UserTile"
 
 
 const Container = styled.div`
@@ -67,21 +68,25 @@ const Buttons = styled.div`
 
 `
 
+interface StatesProps extends UserTileProps {
 
-const States = () => {
+}
+
+const States = ({user}: StatesProps) => {
     const navigate = useNavigate();
     const states = useFetchItems<StateType[]>("states");
 
-    states?.sort((a,b)=>(a.order - b.order))
+    states?.sort((a,b)=>(a.order - b.order));
   return (
     <Container>
         <Title>Welcome to Your Xpak Account</Title>
+        <UserTile user={user} />
         <Box>
             <Header>
                 <h3 style={{flex: "2"}}>All States</h3>
 
                 <Buttons>
-                    <Button onClick={()=>{navigate("/new-state");}}>Add State</Button>
+                    {user.userType === "ADMIN" && <Button onClick={()=>{navigate("/new-state");}}>Add State</Button>}
                     <Button onClick={()=>{navigate("/home")}}>Home</Button>
                 </Buttons>
                 
@@ -97,13 +102,16 @@ const States = () => {
                             index={index + 1}
                             title={`${state.name}${state.alias ? ` (${state.alias})`: ""}`}
                             state={state.order.toString()}
-                            onUpdateClick={()=>{navigate("/update-state", {state: {
+                            onUpdateClick={()=>{
+                                user.userType === "ADMIN" ?
+                                navigate("/update-state", {state: {
                                 id: state.id,
                                 name: state.name,
                                 order: state.order,
                                 alias: state.alias,
                                 minPermission: state.min_permission
-                            }})}}
+                            }}): ()=>{}}}
+                           altBtn={user.userType === "REGULAR" ? "View": undefined}
                         />
                     )): null
 
