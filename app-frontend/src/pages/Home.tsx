@@ -80,6 +80,7 @@ const Home = ({user}: HomeProps) => {
                 {
                     [2,3,4].map((num, index)=>(
                         <Tile 
+                            key={num}
                             index={index + 1}
                             title={"way finder"}
                         />

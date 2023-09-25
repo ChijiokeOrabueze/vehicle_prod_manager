@@ -16,12 +16,14 @@ const Container = styled.div`
 interface TileProps {
     index: number;
     title: string;
+    state?: string;
 }
 
-const Tile = ({index, title}: TileProps) => {
+const Tile = ({index, title, state}: TileProps) => {
   return (
     <Container>
         <p>{index}. {title}</p>
+        <p>{state || ""}</p>
         <Button>Update</Button>
     </Container>
   )
