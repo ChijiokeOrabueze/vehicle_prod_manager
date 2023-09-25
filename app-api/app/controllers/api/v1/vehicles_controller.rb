@@ -7,7 +7,7 @@ module Api
 
       # GET /vehicles
       def index
-        @vehicles = Vehicle.all
+        @vehicles = Vehicle.joins(:state).select('states.name AS state_name, vehicles.*')
 
         handle_response({"data" => @vehicles, "success" => true}, "fetched all vehicles.")
       end

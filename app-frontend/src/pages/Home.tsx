@@ -61,7 +61,7 @@ interface HomeProps extends UserTileProps {
 
 const Home = ({user}: HomeProps) => {
     const navigate = useNavigate();
-    const vehicles = useFetchItems<{name: string, state_id: number, order: number, id: number}[]>("vehicles");
+    const vehicles = useFetchItems<{name: string, state_name: number, order: number, id: number}[]>("vehicles");
 
   return (
     <Container>
@@ -88,7 +88,7 @@ const Home = ({user}: HomeProps) => {
                             key={vehicle.id}
                             index={index + 1}
                             title={`${vehicle.name}`}
-                            state={vehicle.state_id.toString()}
+                            state={vehicle?.state_name?.toString()}
                         />
                     )): null
     
