@@ -60,6 +60,9 @@ const Login = () => {
 
         const response = await fetch(`${import.meta.env.VITE_MAIN_API_URL}/auth/login`, {
             method: "post",
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify( {
                 username,
                 password
@@ -69,13 +72,11 @@ const Login = () => {
         const user = await response.json();
 
         if (response.ok){
-            navigate("/home")
+            navigate("/home");
+            return;
         }
 
-        console.log({user})
-
-        
-
+        notify(user.message)
 
     }
   return (
