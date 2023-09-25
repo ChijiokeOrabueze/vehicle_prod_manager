@@ -23,7 +23,7 @@ interface TileProps {
 const Tile = ({index, title, state, onUpdateClick}: TileProps) => {
   return (
     <Container>
-        <p>{index}. {title}</p>
+        <p style={{width: "150px"}}>{index}. {title}</p>
         <p>{state || ""}</p>
         <Button onClick={onUpdateClick}>Update</Button>
     </Container>

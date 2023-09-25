@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { makeApiCall, notify } from "../utils"
 import useFetchItems from "../hooks/useFetchItems"
+import { StateType, UserType, permissionMap } from "../types"
 
 
 const Container = styled.div`
@@ -21,8 +22,12 @@ const Container = styled.div`
 
 `
 
-const AddVehicleForm = () => {
-    const states = useFetchItems<{name: string, alias: string, order: number, id: number}[]>("states");
+interface AddVehicleFormProps {
+    authUserType: UserType;
+}
+
+const AddVehicleForm = ({authUserType}:AddVehicleFormProps) => {
+    const states = useFetchItems<StateType[]>("states");
     const [name, setName] = useState("");
     const [state, setState] = useState("");
     const navigate = useNavigate();
@@ -40,7 +45,9 @@ const AddVehicleForm = () => {
     const stateMap: {[x in string]: number} = {};
     const stateOptions: string[] = [];
 
-    states?.forEach(({name, order, alias, id})=>{
+    console.log(states)
+
+    states?.forEach(({name, order, alias, id, min_permission})=>{
         const state = `${name}${alias ? ` (${alias})`: ""}-${order}`;
         stateMap[state] = id;
 
@@ -48,6 +55,7 @@ const AddVehicleForm = () => {
             currState = {name, order, alias, id}
         }
 
+        if (location?.state?.state?.id === id || permissionMap[authUserType] >= min_permission)
         stateOptions.push(state);
     })
 

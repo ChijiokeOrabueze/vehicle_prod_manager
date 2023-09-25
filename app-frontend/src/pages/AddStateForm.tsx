@@ -74,6 +74,20 @@ const AddStateForm = ({authUserType}:AddStateFormProps) => {
             setName(location.state.name);
             setAlias(location.state.alias);
             setOrder(location.state.order);
+
+            let correctPermissionIndex: number | null = null;
+            Object.values(permissionMap).every((num, index) => {
+                if (num === location.state.minPermission){
+                    correctPermissionIndex = index;
+                    return false;
+                }
+                return true;
+            });
+
+            setMinPermission(correctPermissionIndex != null ?
+                Object.keys(permissionMap)[correctPermissionIndex] as UserType:
+                "REGULAR"
+            );
             
         }
 

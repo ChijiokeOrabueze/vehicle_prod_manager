@@ -2,6 +2,7 @@ import styled from "styled-components"
 import Tile from "../components/Tile"
 import { useNavigate } from "react-router-dom"
 import useFetchItems from "../hooks/useFetchItems"
+import { StateType } from "../types"
 
 
 const Container = styled.div`
@@ -69,9 +70,9 @@ const Buttons = styled.div`
 
 const States = () => {
     const navigate = useNavigate();
-    const states = useFetchItems<{name: string, alias: string, order: number, id: number, min_permission: string}[]>("states");
+    const states = useFetchItems<StateType[]>("states");
 
-
+    states?.sort((a,b)=>(a.order - b.order))
   return (
     <Container>
         <Title>Welcome to Your Xpak Account</Title>
@@ -100,7 +101,8 @@ const States = () => {
                                 id: state.id,
                                 name: state.name,
                                 order: state.order,
-                                alias: state.alias
+                                alias: state.alias,
+                                minPermission: state.min_permission
                             }})}}
                         />
                     )): null
