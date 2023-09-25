@@ -34,6 +34,8 @@ function App() {
                     <Route path='/states' element={<States />} />
                     <Route path='/new-vehicle' element={<AddVehicleForm />} />
                     <Route path='/new-state' element={<AddStateForm />} />
+                    <Route path='/update-vehicle' element={<AddVehicleForm />} />
+                    <Route path='/update-state' element={<AddStateForm />} />
                     <Route path='*' element={<div>Not found</div>} />
                 </Routes>
             </>

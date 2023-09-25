@@ -61,8 +61,9 @@ interface HomeProps extends UserTileProps {
 
 const Home = ({user}: HomeProps) => {
     const navigate = useNavigate();
-    const vehicles = useFetchItems<{name: string, state_name: number, order: number, id: number}[]>("vehicles");
+    const vehicles = useFetchItems<{name: string, state_name: string, state_id: number, state_order: number, id: number}[]>("vehicles");
 
+    console.log({vehicles})
   return (
     <Container>
         <Title>Welcome to Your Xpak Account</Title>
@@ -89,6 +90,13 @@ const Home = ({user}: HomeProps) => {
                             index={index + 1}
                             title={`${vehicle.name}`}
                             state={vehicle?.state_name?.toString()}
+                            onUpdateClick={()=>{navigate("/update-vehicle", {state: {
+                                id: vehicle.id,
+                                name: vehicle.name,
+                                state: {
+                                    id: vehicle.state_id
+                                }
+                            }})}}
                         />
                     )): null
     

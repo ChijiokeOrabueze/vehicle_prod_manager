@@ -80,6 +80,7 @@ const States = () => {
 
                 <Buttons>
                     <Button onClick={()=>{navigate("/new-state");}}>Add State</Button>
+                    <Button onClick={()=>{navigate("/home")}}>Home</Button>
                 </Buttons>
                 
             </Header>
@@ -94,6 +95,12 @@ const States = () => {
                             index={index + 1}
                             title={`${state.name}${state.alias ? ` (${state.alias})`: ""}`}
                             state={state.order.toString()}
+                            onUpdateClick={()=>{navigate("/update-state", {state: {
+                                id: state.id,
+                                name: state.name,
+                                order: state.order,
+                                alias: state.alias
+                            }})}}
                         />
                     )): null
 

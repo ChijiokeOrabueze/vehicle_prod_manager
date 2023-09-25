@@ -2,8 +2,8 @@ import styled from "styled-components"
 import { Button, FormBody, Title } from "../styles"
 import Input from "../components/Input"
 import Select from "../components/Select"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 import { makeApiCall, notify } from "../utils"
 import useFetchItems from "../hooks/useFetchItems"
 
@@ -26,6 +26,7 @@ const AddVehicleForm = () => {
     const [name, setName] = useState("");
     const [state, setState] = useState("");
     const navigate = useNavigate();
+    const location = useLocation();
 
     const onSuccess = () => {
         navigate("/home")
@@ -49,23 +50,35 @@ const AddVehicleForm = () => {
             return;
         }
 
+        const updateId = location?.state?.id;
 
 
         await makeApiCall(
-            "post",
-            `${import.meta.env.VITE_MAIN_API_URL}/vehicles`,
+            updateId ? "put" : "post",
+            `${import.meta.env.VITE_MAIN_API_URL}/vehicles${updateId ? `/${updateId}` : ""}`,
             {name, state_id: stateMap[state]},
             onSuccess,
             onFailure
         )
     }
 
+    useEffect(()=>{
+
+        if (location.state){
+            const currState = states?.find((state)=>(state.id == location.state.state.id))
+            setName(location.state.name);
+            setState(currState ?
+                `${currState?.name}${currState?.alias ? ` (${currState?.alias})`: ""}-${currState?.order}`:
+                ""
+            )
+        }
+
+    }, [location.state, states])
 
 
-    
   return (
     <Container>
-        <Title>Add new Vehicle</Title>
+        <Title>{location.state ? `Update Vehicle - ${location.state?.name}` : "Add new Vehicle"}</Title>
         <FormBody>
             <Input 
                 name="name"
@@ -86,7 +99,7 @@ const AddVehicleForm = () => {
                 onChange={(e)=>{setState(e.target.value)}}
             />
         </FormBody>
-        <Button onClick={handleSubmit}>Submit</Button>
+        <Button onClick={handleSubmit}>{location.state ? "Update" : "Submit"}</Button>
 
     </Container>
   )
