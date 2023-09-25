@@ -9,6 +9,7 @@ import States from './pages/States';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import AddVehicleForm from './pages/AddVehicleForm';
 import AddStateForm from './pages/AddStateForm';
+import { UserType } from './types';
 
 
 const Container = styled.div`
@@ -24,14 +25,18 @@ const Container = styled.div`
 `;
 
 function App() {
-    const [user, setUser] = useLocalStorage("user", {username: "", userType: "" as "REGULAR" | "ADMIN"});
+    const [user, setUser] = useLocalStorage("user", {username: "", userType: "" as UserType});
     return (
         <Container>
             <>
                 <Routes>
                     <Route path='/' element={<Login setUser={(user)=>{setUser(user)}} />} />
-                    <Route path='/home' element={<Home user={user}/>} />
-                    <Route path='/states' element={<States user={user} />} />
+                    <Route path='/home' element={<Home user={user} logout={()=>{
+                        setUser({username: "", userType: "" as UserType})
+                    }}/>} />
+                    <Route path='/states' element={<States user={user} logout={()=>{
+                        setUser({username: "", userType: "" as UserType})
+                    }}/>} />
                     <Route path='/new-vehicle' element={<AddVehicleForm authUserType={user.userType}/>} />
                     <Route path='/new-state' element={<AddStateForm authUserType={user.userType}/>} />
                     <Route path='/update-vehicle' element={<AddVehicleForm authUserType={user.userType}/>} />

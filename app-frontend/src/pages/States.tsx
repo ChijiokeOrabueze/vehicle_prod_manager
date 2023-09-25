@@ -72,7 +72,7 @@ interface StatesProps extends UserTileProps {
 
 }
 
-const States = ({user}: StatesProps) => {
+const States = ({user, logout}: StatesProps) => {
     const navigate = useNavigate();
     const states = useFetchItems<StateType[]>("states");
 
@@ -80,7 +80,7 @@ const States = ({user}: StatesProps) => {
   return (
     <Container>
         <Title>Welcome to Your Xpak Account</Title>
-        <UserTile user={user} />
+        <UserTile user={user} logout={()=>{logout(); navigate("/")}}  />
         <Box>
             <Header>
                 <h3 style={{flex: "2"}}>All States</h3>

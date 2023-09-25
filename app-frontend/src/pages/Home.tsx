@@ -59,15 +59,14 @@ interface HomeProps extends UserTileProps {
 }
 
 
-const Home = ({user}: HomeProps) => {
+const Home = ({user, logout}: HomeProps) => {
     const navigate = useNavigate();
     const vehicles = useFetchItems<{name: string, state_name: string, state_id: number, state_order: number, id: number}[]>("vehicles");
 
-    console.log({vehicles})
   return (
     <Container>
         <Title>Welcome to Your Xpak Account</Title>
-        <UserTile user={user} />
+        <UserTile user={user} logout={()=>{logout(); navigate("/")}} />
         <Box>
             <Header>
                 <h3 style={{flex: "2"}}>Vehicles Available</h3>
